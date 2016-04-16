@@ -93,34 +93,34 @@ describe('Node', function() {
     f1.hint = 'f1';
     fake.hint = 'fake';
 
-    node.mempool.addTX(fake, function(err) {
+    node.mempool.addTransaction(fake, function(err) {
       assert.noError(err);
-      node.mempool.addTX(t4, function(err) {
+      node.mempool.addTransaction(t4, function(err) {
         assert.noError(err);
         node.mempool.getBalance(function(err, balance) {
           assert.noError(err);
           assert.equal(balance.total.toString(10), '0');
-          node.mempool.addTX(t1, function(err) {
+          node.mempool.addTransaction(t1, function(err) {
             assert.noError(err);
             node.mempool.getBalance(function(err, balance) {
               assert.noError(err);
               assert.equal(balance.total.toString(10), '60000');
-              node.mempool.addTX(t2, function(err) {
+              node.mempool.addTransaction(t2, function(err) {
                 assert.noError(err);
                 node.mempool.getBalance(function(err, balance) {
                   assert.noError(err);
                   assert.equal(balance.total.toString(10), '50000');
-                  node.mempool.addTX(t3, function(err) {
+                  node.mempool.addTransaction(t3, function(err) {
                     assert.noError(err);
                     node.mempool.getBalance(function(err, balance) {
                       assert.noError(err);
                       assert.equal(balance.total.toString(10), '22000');
-                      node.mempool.addTX(f1, function(err) {
+                      node.mempool.addTransaction(f1, function(err) {
                         assert.noError(err);
                         node.mempool.getBalance(function(err, balance) {
                           assert.noError(err);
                           assert.equal(balance.total.toString(10), '20000');
-                          node.mempool.getAll(function(err, txs) {
+                          node.mempool.getHistory(function(err, txs) {
                             assert(txs.some(function(tx) {
                               return tx.hash('hex') === f1.hash('hex');
                             }));

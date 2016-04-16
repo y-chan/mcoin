@@ -187,40 +187,40 @@ describe('Wallet', function() {
         fake.hint = 'fake';
 
         // Fake TX should temporarly change output
-        wdb.addTX(fake, function(err) {
+        wdb.addTransaction(fake, function(err) {
           assert.noError(err);
-          wdb.addTX(t4, function(err) {
+          wdb.addTransaction(t4, function(err) {
             assert.noError(err);
             w.getBalance(function(err, balance) {
               assert.noError(err);
               assert.equal(balance.total.toString(10), '22500');
-              wdb.addTX(t1, function(err) {
+              wdb.addTransaction(t1, function(err) {
                 w.getBalance(function(err, balance) {
                   assert.noError(err);
                   assert.equal(balance.total.toString(10), '73000');
-                  wdb.addTX(t2, function(err) {
+                  wdb.addTransaction(t2, function(err) {
                     assert.noError(err);
                     w.getBalance(function(err, balance) {
                       assert.noError(err);
                       assert.equal(balance.total.toString(10), '47000');
-                      wdb.addTX(t3, function(err) {
+                      wdb.addTransaction(t3, function(err) {
                         assert.noError(err);
                         w.getBalance(function(err, balance) {
                           assert.noError(err);
                           assert.equal(balance.total.toString(10), '22000');
-                          wdb.addTX(f1, function(err) {
+                          wdb.addTransaction(f1, function(err) {
                             assert.noError(err);
                             w.getBalance(function(err, balance) {
                               assert.noError(err);
                               assert.equal(balance.total.toString(10), '11000');
-                              w.getAll(function(err, txs) {
+                              w.getHistory(function(err, txs) {
                                 assert(txs.some(function(tx) {
                                   return tx.hash('hex') === f1.hash('hex');
                                 }));
 
                                 var w2 = bcoin.wallet.fromJSON(w.toJSON());
                                 // assert.equal(w2.getBalance().toString(10), '11000');
-                                // assert(w2.getAll().some(function(tx) {
+                                // assert(w2.getHistory().some(function(tx) {
                                 //   return tx.hash('hex') === f1.hash('hex');
                                 // }));
                                 cb();
@@ -243,7 +243,7 @@ describe('Wallet', function() {
   it('should cleanup spenders after double-spend', function(cb) {
     var t1 = bcoin.mtx().addOutput(dw, 5000);
     t1.addInput(di);
-    wdb.addTX(t1, function(err) {
+    wdb.addTransaction(t1, function(err) {
       assert.noError(err);
       dw.getBalance(function(err, balance) {
         assert.noError(err);
@@ -269,7 +269,7 @@ describe('Wallet', function() {
         t1.addInput(dummyInput);
 
         // Fake TX should temporarly change output
-        wdb.addTX(t1, function(err) {
+        wdb.addTransaction(t1, function(err) {
           assert.noError(err);
 
           // Create new transaction
@@ -326,9 +326,9 @@ describe('Wallet', function() {
           t2.addInput(dummyInput);
           // Fake TX should temporarly change output
 
-          wdb.addTX(t1, function(err) {
+          wdb.addTransaction(t1, function(err) {
             assert.noError(err);
-            wdb.addTX(t2, function(err) {
+            wdb.addTransaction(t2, function(err) {
               assert.noError(err);
 
               // Create our tx with an output
@@ -457,11 +457,11 @@ describe('Wallet', function() {
 
             assert.equal(w1.receiveDepth, 1);
 
-            wdb.addTX(utx, function(err) {
+            wdb.addTransaction(utx, function(err) {
               assert.noError(err);
-              wdb.addTX(utx, function(err) {
+              wdb.addTransaction(utx, function(err) {
                 assert.noError(err);
-                wdb.addTX(utx, function(err) {
+                wdb.addTransaction(utx, function(err) {
                   assert.noError(err);
 
                   assert.equal(w1.receiveDepth, 2);
@@ -498,11 +498,11 @@ describe('Wallet', function() {
                     send.ts = 1;
                     send.height = 1;
 
-                    wdb.addTX(send, function(err) {
+                    wdb.addTransaction(send, function(err) {
                       assert.noError(err);
-                      wdb.addTX(send, function(err) {
+                      wdb.addTransaction(send, function(err) {
                         assert.noError(err);
-                        wdb.addTX(send, function(err) {
+                        wdb.addTransaction(send, function(err) {
                           assert.noError(err);
 
                           assert.equal(w1.receiveDepth, 2);

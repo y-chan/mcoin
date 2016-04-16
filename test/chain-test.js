@@ -41,7 +41,7 @@ describe('Chain', function() {
         });
         redeemer.addInput(tx, 0);
         wallet.sign(redeemer);
-        attempt.addTX(redeemer);
+        attempt.addTransaction(redeemer);
       }
       callback(null, attempt.mineSync());
     });
