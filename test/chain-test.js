@@ -108,7 +108,7 @@ describe('Chain', function() {
             deleteCoins(chain2);
             chain.add(chain2, function(err) {
               assert.ifError(err);
-              assert(chain.tip.hash === chain1.hash('hex'));
+              assert(chain.tip.hex() === chain1.hash('hex'));
               competingTip = chain2.hash('hex');
               chain.db.get(chain1.hash('hex'), function(err, entry1) {
                 assert.ifError(err);
@@ -151,7 +151,7 @@ describe('Chain', function() {
         chain.add(reorg, function(err) {
           assert.ifError(err);
           assert(forked);
-          assert(chain.tip.hash === reorg.hash('hex'));
+          assert(chain.tip.hex() === reorg.hash('hex'));
           assert(chain.tip.chainwork.cmp(oldTip.chainwork) > 0);
           cb();
         });
@@ -176,8 +176,8 @@ describe('Chain', function() {
         chain.db.get(block.hash('hex'), function(err, entry) {
           assert.ifError(err);
           assert(entry);
-          assert(chain.tip.hash === entry.hash);
-          chain.db.isMainChain(entry.hash, function(err, result) {
+          assert(chain.tip.hex() === entry.hex());
+          chain.db.isMainChain(entry.hex(), function(err, result) {
             assert.ifError(err);
             assert(result);
             cb();
