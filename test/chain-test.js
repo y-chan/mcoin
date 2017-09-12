@@ -3,6 +3,7 @@
 
 'use strict';
 
+const resetDB = require('../lib/db/models/mongoReset');
 const assert = require('./util/assert');
 const consensus = require('../lib/protocol/consensus');
 const encoding = require('../lib/utils/encoding');
@@ -26,9 +27,12 @@ const workers = new WorkerPool({
 });
 
 const chain = new Chain({
-  db: 'memory',
+  db: 'leveldb',
   network,
-  workers
+  workers,
+  prefix: '.',
+  indexTX: true,
+  indexAddress: true
 });
 
 const miner = new Miner({

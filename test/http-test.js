@@ -19,7 +19,7 @@ const node = new FullNode({
   network: 'regtest',
   apiKey: 'foo',
   walletAuth: true,
-  db: 'memory',
+  db: 'leveldb',
   workers: true,
   plugins: [require('../lib/wallet/plugin')]
 });
