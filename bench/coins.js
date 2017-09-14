@@ -1,35 +1,34 @@
 'use strict';
 
-var fs = require('fs');
-var Coins = require('../lib/coins/coins');
-var TX = require('../lib/primitives/tx');
-var bench = require('./bench');
+const CoinView = require('../lib/coins/coinview');
+const BufferReader = require('../lib/utils/reader');
+const StaticWriter = require('../lib/utils/writer');
+const common = require('../test/util/common');
+const bench = require('./bench');
 
-var raw = fs.readFileSync(__dirname + '/../test/data/wtx.hex', 'utf8');
-var wtx = TX.fromRaw(raw.trim(), 'hex');
-var coins = Coins.fromTX(wtx, 1);
-var i, j, end, hash;
+const [tx, view] = common.readTX('tx3').getTX();
 
-end = bench('serialize');
-for (i = 0; i < 10000; i++)
-  raw = coins.toRaw();
-end(i);
+{
+  const end = bench('serialize');
 
-end = bench('parse');
-for (i = 0; i < 10000; i++)
-  Coins.fromRaw(raw);
-end(i);
+  for (let i = 0; i < 10000000; i++) {
+    const bw = new StaticWriter(view.getSize(tx));
+    view.toWriter(bw, tx).render();
+  }
 
-end = bench('parse-single');
-hash = wtx.hash('hex');
-for (i = 0; i < 10000; i++)
-  Coins.parseCoin(raw, hash, 5);
-end(i);
-
-coins = Coins.fromRaw(raw);
-end = bench('get');
-for (i = 0; i < 10000; i++) {
-  for (j = 0; j < coins.outputs.length; j++)
-    coins.get(j);
+  end(10000000);
 }
-end(i * coins.outputs.length);
+
+{
+  const bw = new StaticWriter(view.getSize(tx));
+  const raw = view.toWriter(bw, tx).render();
+
+  const end = bench('parse');
+
+  for (let i = 0; i < 10000000; i++) {
+    const br = new BufferReader(raw);
+    CoinView.fromReader(br, tx);
+  }
+
+  end(10000000);
+}
