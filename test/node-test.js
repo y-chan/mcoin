@@ -15,7 +15,7 @@ const TX = require('../lib/primitives/tx');
 const Address = require('../lib/primitives/address');
 
 const node = new FullNode({
-  db: 'memory',
+  db: 'leveldb',
   apiKey: 'foo',
   network: 'regtest',
   workers: true,

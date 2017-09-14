@@ -201,7 +201,6 @@ describe('Chain', function() {
     assert.strictEqual(chain.tip.hash, block.hash('hex'));
     assert(chain.tip.chainwork.cmp(tip1.chainwork) > 0);
   });
-  return;
 
   it('should have correct chain value', () => {
     assert.strictEqual(chain.db.state.value, 900000000000);
