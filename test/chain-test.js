@@ -191,18 +191,17 @@ describe('Chain', function() {
 
     const block = await cpu.mineBlock(entry);
     assert(block);
-
     let forked = false;
     chain.once('reorganize', () => {
       forked = true;
     });
-
     assert(await chain.add(block));
 
     assert(forked);
     assert.strictEqual(chain.tip.hash, block.hash('hex'));
     assert(chain.tip.chainwork.cmp(tip1.chainwork) > 0);
   });
+  return;
 
   it('should have correct chain value', () => {
     assert.strictEqual(chain.db.state.value, 900000000000);
