@@ -25,11 +25,16 @@ const workers = new WorkerPool({
   enabled: true
 });
 
+const dbname = 'bcoin-test';
+const dburi = 'localhost';
+
 const chain = new Chain({
   db: 'leveldb',
   dbname: 'bcoin-test',
   dbhost: 'localhost',
   network,
+  dbname,
+  dburi,
   workers,
   prefix: '.',
   indexTX: true,
