@@ -3,7 +3,6 @@
 
 'use strict';
 
-const resetDB = require('../lib/db/models/mongoReset');
 const assert = require('./util/assert');
 const consensus = require('../lib/protocol/consensus');
 const encoding = require('../lib/utils/encoding');
@@ -28,6 +27,8 @@ const workers = new WorkerPool({
 
 const chain = new Chain({
   db: 'leveldb',
+  dbname: 'bcoin-test',
+  dbhost: 'localhost',
   network,
   workers,
   prefix: '.',
