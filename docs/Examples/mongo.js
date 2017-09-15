@@ -7,7 +7,7 @@ const node = new FullNode({
   network: 'main',
   db: 'leveldb',
   dbname: 'bcoin',
-  dburi: 'localhost',
+  dbhost: 'localhost',
   prefix: '.',
   checkpoints: true,
   workers: false,
