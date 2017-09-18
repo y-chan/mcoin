@@ -9,6 +9,7 @@ const encoding = require('../lib/utils/encoding');
 const Coin = require('../lib/primitives/coin');
 const Script = require('../lib/script/script');
 const Chain = require('../lib/blockchain/chain');
+const MDB = require('../lib/db/mongo');
 const WorkerPool = require('../lib/workers/workerpool');
 const Miner = require('../lib/mining/miner');
 const MTX = require('../lib/primitives/mtx');
@@ -37,6 +38,11 @@ const chain = new Chain({
   prefix: '.',
   indexTX: true,
   indexAddress: true
+});
+
+const db = new MDB({
+  dbname,
+  dbhost
 });
 
 const miner = new Miner({
@@ -116,6 +122,11 @@ chain.on('disconnect', (entry, block) => {
 
 describe('Chain', function() {
   this.timeout(45000);
+
+  before(async function() {
+    await db.open();
+    await db.reset();
+  });
 
   it('should open chain and miner', async () => {
     await chain.open();
@@ -870,6 +881,7 @@ describe('Chain', function() {
 
   it('should cleanup', async () => {
     await miner.close();
+    await db.reset();
     await chain.close();
   });
 });
