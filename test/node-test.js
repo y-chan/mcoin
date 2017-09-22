@@ -14,11 +14,19 @@ const MTX = require('../lib/primitives/mtx');
 const TX = require('../lib/primitives/tx');
 const Address = require('../lib/primitives/address');
 
+const dbname = 'bcoin-test';
+const dbhost = 'localhost';
+
 const node = new FullNode({
   db: 'leveldb',
   apiKey: 'foo',
   network: 'regtest',
   workers: true,
+  prefix: '.',
+  dbname,
+  dbhost,
+  indexTX: true,
+  indexAddress: true,
   plugins: [require('../lib/wallet/plugin')]
 });
 
