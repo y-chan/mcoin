@@ -30,7 +30,7 @@ const dbname = 'bcoin-test';
 const dbhost = 'localhost';
 
 const chain = new Chain({
-  db: 'leveldb',
+  db: 'mem',
   network,
   dbname,
   dbhost,
