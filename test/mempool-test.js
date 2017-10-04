@@ -31,7 +31,7 @@ const workers = new WorkerPool({
 });
 
 const chain = new Chain({
-  db: 'leveldb',
+  db: 'mem',
   dbname,
   dbhost,
   workers,
@@ -44,7 +44,7 @@ const chain = new Chain({
 const mempool = new Mempool({
   chain,
   network,
-  db: 'leveldb',
+  db: 'mem',
   dbname,
   dbhost,
   workers
