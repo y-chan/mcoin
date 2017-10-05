@@ -121,7 +121,7 @@ chain.on('disconnect', (entry, block) => {
 });
 
 describe('Chain', function() {
-  this.timeout(45000);
+  this.timeout(300000);
 
   before(async function() {
     await db.open();
