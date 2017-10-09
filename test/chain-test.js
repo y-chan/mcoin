@@ -177,13 +177,13 @@ describe('Chain', function() {
 
       assert.strictEqual(chain.tip.hash, hash1);
 
-      tip1 = await chain.db.getEntry(hash1);
-      tip2 = await chain.db.getEntry(hash2);
+      tip1 = await chain.getEntry(hash1);
+      tip2 = await chain.getEntry(hash2);
 
       assert(tip1);
       assert(tip2);
 
-      assert(!await tip2.isMainChain());
+      assert(!await chain.isMainChain(tip2));
     }
   });
 
@@ -200,7 +200,7 @@ describe('Chain', function() {
   it('should handle a reorg', async () => {
     assert.strictEqual(chain.height, 210);
 
-    const entry = await chain.db.getEntry(tip2.hash);
+    const entry = await chain.getEntry(tip2.hash);
     assert(entry);
     assert.strictEqual(chain.height, entry.height);
 
@@ -228,7 +228,7 @@ describe('Chain', function() {
   });
 
   it('should check main chain', async () => {
-    const result = await tip1.isMainChain();
+    const result = await chain.isMainChain(tip1);
     assert(!result);
   });
 
@@ -238,12 +238,12 @@ describe('Chain', function() {
     assert(await chain.add(block));
 
     const hash = block.hash('hex');
-    const entry = await chain.db.getEntry(hash);
+    const entry = await chain.getEntry(hash);
 
     assert(entry);
     assert.strictEqual(chain.tip.hash, entry.hash);
 
-    const result = await entry.isMainChain();
+    const result = await chain.isMainChain(entry);
     assert(result);
   });
 
@@ -281,7 +281,7 @@ describe('Chain', function() {
   });
 
   it('should fail to connect coins on an alternate chain', async () => {
-    const block = await chain.db.getBlock(tip1.hash);
+    const block = await chain.getBlock(tip1.hash);
     const cb = block.txs[0];
     const mtx = new MTX();
 
@@ -331,7 +331,7 @@ describe('Chain', function() {
     const tx = block.txs[1];
     const output = Coin.fromTX(tx, 2, chain.height);
 
-    const coin = await chain.db.getCoin(tx.hash('hex'), 2);
+    const coin = await chain.getCoin(tx.hash('hex'), 2);
 
     assert.bufferEqual(coin.toRaw(), output.toRaw());
   });
@@ -364,7 +364,7 @@ describe('Chain', function() {
   it('should rescan for transactions', async () => {
     let total = 0;
 
-    await chain.db.scan(0, wallet.filter, async (block, txs) => {
+    await chain.scan(0, wallet.filter, async (block, txs) => {
       total += txs.length;
     });
 
@@ -378,7 +378,7 @@ describe('Chain', function() {
 
     assert.strictEqual(chain.height, 214);
 
-    const prev = await chain.tip.getPrevious();
+    const prev = await chain.getPrevious(chain.tip);
     const state = await chain.getState(prev, deployments.csv);
     assert.strictEqual(state, 1);
 
@@ -387,19 +387,19 @@ describe('Chain', function() {
       assert(await chain.add(block));
       switch (chain.height) {
         case 288: {
-          const prev = await chain.tip.getPrevious();
+          const prev = await chain.getPrevious(chain.tip);
           const state = await chain.getState(prev, deployments.csv);
           assert.strictEqual(state, 1);
           break;
         }
         case 432: {
-          const prev = await chain.tip.getPrevious();
+          const prev = await chain.getPrevious(chain.tip);
           const state = await chain.getState(prev, deployments.csv);
           assert.strictEqual(state, 2);
           break;
         }
         case 576: {
-          const prev = await chain.tip.getPrevious();
+          const prev = await chain.getPrevious(chain.tip);
           const state = await chain.getState(prev, deployments.csv);
           assert.strictEqual(state, 3);
           break;
@@ -419,13 +419,13 @@ describe('Chain', function() {
 
   it('should have activated segwit', async () => {
     const deployments = network.deployments;
-    const prev = await chain.tip.getPrevious();
+    const prev = await chain.getPrevious(chain.tip);
     const state = await chain.getState(prev, deployments.segwit);
     assert.strictEqual(state, 3);
   });
 
   it('should test csv', async () => {
-    const tx = (await chain.db.getBlock(chain.height - 100)).txs[0];
+    const tx = (await chain.getBlock(chain.height - 100)).txs[0];
     const csvBlock = await mineCSV(tx);
 
     assert(await chain.add(csvBlock));
@@ -456,7 +456,7 @@ describe('Chain', function() {
   });
 
   it('should fail csv with bad sequence', async () => {
-    const csv = (await chain.db.getBlock(chain.height - 100)).txs[0];
+    const csv = (await chain.getBlock(chain.height - 100)).txs[0];
     const spend = new MTX();
 
     spend.addOutput({
@@ -485,7 +485,7 @@ describe('Chain', function() {
   });
 
   it('should fail csv lock checks', async () => {
-    const tx = (await chain.db.getBlock(chain.height - 100)).txs[0];
+    const tx = (await chain.getBlock(chain.height - 100)).txs[0];
     const csvBlock = await mineCSV(tx);
 
     assert(await chain.add(csvBlock));
@@ -523,7 +523,7 @@ describe('Chain', function() {
   });
 
   it('should fail to connect bad MTP', async () => {
-    const mtp = await chain.tip.getMedianTime();
+    const mtp = await chain.getMedianTime(chain.tip);
     const job = await cpu.createJob();
     job.attempt.time = mtp - 1;
     assert.strictEqual(await mineBlock(job), 'time-too-old');
@@ -630,7 +630,7 @@ describe('Chain', function() {
   });
 
   it('should mine a witness tx', async () => {
-    const prev = await chain.db.getBlock(chain.height - 2000);
+    const prev = await chain.getBlock(chain.height - 2000);
     const cb = prev.txs[0];
     const mtx = new MTX();
 
@@ -654,7 +654,7 @@ describe('Chain', function() {
     const job = await cpu.createJob();
 
     for (let i = start; i <= end; i++) {
-      const block = await chain.db.getBlock(i);
+      const block = await chain.getBlock(i);
       const cb = block.txs[0];
 
       const mtx = new MTX();
@@ -679,7 +679,7 @@ describe('Chain', function() {
     const job = await cpu.createJob();
 
     for (let i = start; i <= end; i++) {
-      const block = await chain.db.getBlock(i);
+      const block = await chain.getBlock(i);
       const cb = block.txs[0];
 
       const mtx = new MTX();
@@ -704,7 +704,7 @@ describe('Chain', function() {
     const job = await cpu.createJob();
 
     for (let i = start; i <= end; i++) {
-      const block = await chain.db.getBlock(i);
+      const block = await chain.getBlock(i);
       const cb = block.txs[0];
 
       const mtx = new MTX();
@@ -741,7 +741,7 @@ describe('Chain', function() {
 
   it('should fail to connect premature cb spend', async () => {
     const job = await cpu.createJob();
-    const block = await chain.db.getBlock(chain.height - 98);
+    const block = await chain.getBlock(chain.height - 98);
     const cb = block.txs[0];
     const mtx = new MTX();
 
@@ -759,7 +759,7 @@ describe('Chain', function() {
 
   it('should fail to connect vout belowout', async () => {
     const job = await cpu.createJob();
-    const block = await chain.db.getBlock(chain.height - 99);
+    const block = await chain.getBlock(chain.height - 99);
     const cb = block.txs[0];
     const mtx = new MTX();
 
@@ -777,7 +777,7 @@ describe('Chain', function() {
 
   it('should fail to connect outtotal toolarge', async () => {
     const job = await cpu.createJob();
-    const block = await chain.db.getBlock(chain.height - 99);
+    const block = await chain.getBlock(chain.height - 99);
     const cb = block.txs[0];
     const mtx = new MTX();
 
@@ -856,7 +856,7 @@ describe('Chain', function() {
     script.compile();
 
     for (let i = start; i <= end; i++) {
-      const block = await chain.db.getBlock(i);
+      const block = await chain.getBlock(i);
       const cb = block.txs[0];
 
       if (cb.outputs.length === 2)
