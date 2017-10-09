@@ -1,6 +1,6 @@
 'use strict';
 
-const bcoin = require('../..');
+const bcoin = require('.');
 const FullNode = bcoin.fullnode;
 
 const node = new FullNode({
@@ -12,8 +12,8 @@ const node = new FullNode({
   checkpoints: true,
   workers: false,
   logLevel: 'info',
-  'max-inbound': 10,
-  'max-outbound': 10,
+  'max-inbound': 8,
+  'max-outbound': 8,
   'index-tx': true,
   'index-address': true,
   'http-port': 8332
@@ -22,6 +22,8 @@ const node = new FullNode({
 (async () => {
   await node.open();
   await node.connect();
+
+  // await node.chain.reset(100);
 
   node.startSync();
 })().catch((err) => {
