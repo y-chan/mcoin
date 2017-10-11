@@ -11,7 +11,7 @@ const node = new FullNode({
   prefix: '.',
   checkpoints: true,
   workers: false,
-  logLevel: 'info',
+  logLevel: 'debug',
   'max-inbound': 8,
   'max-outbound': 8,
   'index-tx': true,
