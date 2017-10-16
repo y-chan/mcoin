@@ -10,7 +10,8 @@
   },
   "author": "Fedor Indutny <fedor@indutny.com>",
   "contributors": [
-    "Christopher Jeffrey <chjjeffrey@gmail.com>"
+    "Christopher Jeffrey <chjjeffrey@gmail.com>",
+    "Alex Sherbuck <alex@bitpay.com>"
   ],
   "keywords": [
     "bcoin",

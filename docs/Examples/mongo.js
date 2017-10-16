@@ -1,21 +1,17 @@
 'use strict';
 
-const bcoin = require('../..');
+const bcoin = require('../../');
 const FullNode = bcoin.fullnode;
 
 const node = new FullNode({
   network: 'main',
-  db: 'leveldb',
   dbname: 'bcoin',
   dbhost: 'localhost',
-  prefix: '.',
   checkpoints: true,
-  workers: false,
+  workers: true,
   logLevel: 'info',
-  'max-inbound': 10,
-  'max-outbound': 10,
-  'index-tx': true,
-  'index-address': true,
+  'max-inbound': 8,
+  'max-outbound': 8,
   'http-port': 8332
 });
 
