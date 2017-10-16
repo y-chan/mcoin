@@ -11,7 +11,7 @@ const node = new FullNode({
   checkpoints: true,
   workers: true,
   logLevel: 'info',
-  'max-inbound': 8,
+  'max-inbound': 16,
   'max-outbound': 8,
   'http-port': 8332
 });
