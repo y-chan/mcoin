@@ -9,7 +9,7 @@ const node = new FullNode({
   dbhost: 'localhost',
   prefix: '.',
   checkpoints: true,
-  workers: false,
+  workers: true,
   logLevel: 'info',
   'max-inbound': 8,
   'max-outbound': 8,
