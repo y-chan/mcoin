@@ -28,7 +28,7 @@
     "elliptic": "6.4.0",
     "mongoose": "^4.11.9",
     "n64": "0.0.18",
-    "bcoin-mongo-models": "https://github.com/tenthirtyone/bcoin-mongo-models"
+    "bcoin-mongo-models": "https://github.com/bitpay/bcoin-mongo-models"
   },
   "optionalDependencies": {
     "bcoin-native": "0.0.23",
@@ -62,6 +62,7 @@
     "bcoin-spvnode": "./bin/spvnode"
   },
   "scripts": {
+    "mongo": "node mongo.js",
     "clean": "rm -f {browser/,}{bcoin.js,bcoin-worker.js}",
     "docs": "jsdoc -c jsdoc.json",
     "lint": "eslint $(cat .eslintfiles) || exit 0",
