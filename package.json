@@ -1,12 +1,12 @@
 {
-  "name": "bcoin",
+  "name": "mcoin",
   "version": "1.0.0-beta.15",
-  "description": "Bitcoin bike-shed",
+  "description": "Monacoin bike-shed",
   "license": "MIT",
-  "repository": "git://github.com/bcoin-org/bcoin.git",
-  "homepage": "https://github.com/bcoin-org/bcoin",
+  "repository": "git://github.com/y-chan/mcoin.git",
+  "homepage": "https://github.com/y-chan/mcoin",
   "bugs": {
-    "url": "https://github.com/bcoin-org/bcoin/issues"
+    "url": "https://github.com/y-chan/mcoin/issues"
   },
   "author": "Fedor Indutny <fedor@indutny.com>",
   "contributors": [
@@ -15,7 +15,8 @@
   ],
   "keywords": [
     "bcoin",
-    "bitcoin",
+    "mcoin",
+    "monacoin",
     "blockchain",
     "cryptocurrency",
     "wallet"
@@ -28,7 +29,9 @@
     "elliptic": "6.4.0",
     "mongoose": "^4.11.9",
     "n64": "0.0.18",
-    "bcoin-mongo-models": "https://github.com/bitpay/bcoin-mongo-models"
+    "bcoin-mongo-models": "https://github.com/bitpay/bcoin-mongo-models",
+    "scrypt": "^6.0.3",
+    "lyra2re2-hash": "0.0.2"
   },
   "optionalDependencies": {
     "bcoin-native": "0.0.23",
@@ -56,10 +59,10 @@
   },
   "main": "./lib/bcoin.js",
   "bin": {
-    "bcoin": "./bin/bcoin",
-    "bcoin-cli": "./bin/cli",
-    "bcoin-node": "./bin/node",
-    "bcoin-spvnode": "./bin/spvnode"
+    "mcoin": "./bin/bcoin",
+    "mcoin-cli": "./bin/cli",
+    "mcoin-node": "./bin/node",
+    "mcoin-spvnode": "./bin/spvnode"
   },
   "scripts": {
     "mongo": "node mongo.js",

@@ -1,4 +1,4 @@
-# Bcoin
+# Mcoin (Bcoin for Monacoin)
 
 __NOTE__: The latest release of bcoin contains a non-backward compatible change
 to the rest API. Please read the [changelog]'s "migrating" section for more
@@ -6,7 +6,7 @@ details.
 
 ---
 
-**Bcoin** is an alternative implementation of the bitcoin protocol, written in
+**Mcoin** is an alternative implementation of the monacoin protocol, written in
 node.js.
 
 Although still in a beta state, bcoin is well tested and aware of all known
@@ -27,10 +27,10 @@ Try it in the browser: http://bcoin.io/browser.html
 ## Install
 
 ```
-$ git clone git://github.com/bcoin-org/bcoin.git
-$ cd bcoin
+$ git clone git://github.com/y-chan/mcoin.git
+$ cd mcoin
 $ npm install
-$ ./bin/bcoin
+$ ./bin/mcoin
 ```
 
 See the [Beginner's Guide][guide] for more in-depth installation instructions.
@@ -65,7 +65,7 @@ all code is your original work. `</legalese>`
 See LICENSE for more info.
 
 [purse]: https://purse.io
-[guide]: https://github.com/bcoin-org/bcoin/blob/master/docs/Beginner's-Guide.md
+[guide]: https://github.com/y-chan/mcoin/blob/master/docs/Beginner's-Guide.md
 [freenode]: https://freenode.net/
 [irc]: irc://irc.freenode.net/bcoin
-[changelog]: https://github.com/bcoin-org/bcoin/blob/master/CHANGELOG.md
+[changelog]: https://github.com/y-chan/mcoin/blob/master/CHANGELOG.md

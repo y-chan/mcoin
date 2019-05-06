@@ -2,7 +2,7 @@
 
 'use strict';
 
-process.title = 'bcoin-wallet';
+process.title = 'mcoin-wallet';
 
 const server = require('../lib/wallet/server');
 

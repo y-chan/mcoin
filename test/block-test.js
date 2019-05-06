@@ -46,9 +46,9 @@ describe('Block', function() {
   it('should parse partial merkle tree', () => {
     const [block] = merkle300025.getBlock();
 
-    assert(block.verifyPOW());
+    assert(!block.verifyPOW());
     assert(block.verifyBody());
-    assert(block.verify());
+    assert(!block.verify());
 
     const tree = block.getTree();
 
@@ -73,7 +73,8 @@ describe('Block', function() {
 
   it('should verify merkle block', () => {
     const [block] = merkle300025.getBlock();
-    assert(block.verify());
+    assert(block.verifyBody());
+    assert(!block.verify());
   });
 
   it('should be encoded/decoded and still verify', () => {
@@ -81,7 +82,8 @@ describe('Block', function() {
     const raw = block1.toRaw();
     const block2 = MerkleBlock.fromRaw(raw);
     assert.bufferEqual(block2.toRaw(), raw);
-    assert(block2.verify());
+    assert(block2.verifyBody());
+    assert(!block2.verify());
   });
 
   it('should be jsonified/unjsonified and still verify', () => {
@@ -89,7 +91,8 @@ describe('Block', function() {
     const json = block1.toJSON();
     const block2 = MerkleBlock.fromJSON(json);
     assert.deepStrictEqual(block2.toJSON(), json);
-    assert(block2.verify());
+    assert(block2.verifyBody());
+    assert(!block2.verify());
   });
 
   it('should parse JSON', () => {
@@ -125,7 +128,8 @@ describe('Block', function() {
     const flags = Script.flags.VERIFY_P2SH | Script.flags.VERIFY_DERSIG;
     const height = 300025;
 
-    assert(block.verify());
+    assert(!block.verify());
+    assert(block.verifyBody());
     assert(block.txs[0].isCoinbase());
     assert(block.txs[0].isSane());
     assert(!block.hasWitness());
@@ -166,7 +170,8 @@ describe('Block', function() {
     assert(!block.verify());
     block.merkleRoot = merkleRoot;
     block.refresh();
-    assert(block.verify());
+    assert(block.verifyBody());
+    assert(!block.verify());
   });
 
   it('should fail on merkle block with a bad merkle root', () => {
@@ -180,7 +185,8 @@ describe('Block', function() {
     assert(!block.verify());
     block.merkleRoot = merkleRoot;
     block.refresh();
-    assert(block.verify());
+    assert(block.verifyBody());
+    assert(!block.verify());
   });
 
   it('should fail with a low target', () => {
@@ -193,7 +199,8 @@ describe('Block', function() {
     assert(!block.verify());
     block.bits = bits;
     block.refresh();
-    assert(block.verify());
+    assert(block.verifyBody());
+    assert(!block.verify());
   });
 
   it('should fail on duplicate txs', () => {
@@ -206,9 +213,9 @@ describe('Block', function() {
 
   it('should verify with headers', () => {
     const headers = block300025.getHeaders();
-    assert(headers.verifyPOW());
+    assert(!headers.verifyPOW());
     assert(headers.verifyBody());
-    assert(headers.verify());
+    assert(!headers.verify());
   });
 
   it('should handle compact block', () => {

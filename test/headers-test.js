@@ -34,7 +34,7 @@ describe('Headers', function() {
       '00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048');
 
     assert(headers.verifyBody());
-    assert(headers.verifyPOW());
+    assert(!headers.verifyPOW());
   });
 
   it('should match block1 headers from raw', () => {
@@ -53,6 +53,6 @@ describe('Headers', function() {
       '00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048');
 
     assert(headers.verifyBody());
-    assert(headers.verifyPOW());
+    assert(!headers.verifyPOW());
   });
 });

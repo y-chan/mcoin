@@ -14,15 +14,15 @@ function createGenesisBlock(options) {
 
   if (!flags) {
     flags = Buffer.from(
-      'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks',
+      'Dec. 31th 2013 Japan, The winning numbers of the 2013 Year-End Jumbo Lottery:23-130916',
       'ascii');
   }
 
   if (!key) {
     key = Buffer.from(''
-      + '04678afdb0fe5548271967f1a67130b7105cd6a828e039'
-      + '09a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c3'
-      + '84df7ba0b8d578a4c702b6bf11d5f', 'hex');
+      + '040184710fa689ad5023690c80f3a49c8f13f8d45b8c85'
+      + '7fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b5'
+      + '1850b4acf21b179c45070ac7b03a9', 'hex');
   }
 
   if (!reward)
@@ -66,42 +66,21 @@ function createGenesisBlock(options) {
 
 const main = createGenesisBlock({
   version: 1,
-  time: 1231006505,
-  bits: 486604799,
-  nonce: 2083236893
+  time: 1388479472,
+  bits: 0x1e0ffff0,
+  nonce: 1234534
 });
 
 const testnet = createGenesisBlock({
   version: 1,
-  time: 1296688602,
-  bits: 486604799,
-  nonce: 414098458
+  time: 1488924140,
+  bits: 0x1e0ffff0,
+  nonce: 2122860
 });
 
 const regtest = createGenesisBlock({
   version: 1,
   time: 1296688602,
-  bits: 545259519,
-  nonce: 2
-});
-
-const segnet3 = createGenesisBlock({
-  version: 1,
-  time: 1452831101,
-  bits: 486604799,
-  nonce: 0
-});
-
-const segnet4 = createGenesisBlock({
-  version: 1,
-  time: 1452831101,
-  bits: 503447551,
-  nonce: 0
-});
-
-const btcd = createGenesisBlock({
-  version: 1,
-  time: 1401292357,
   bits: 545259519,
   nonce: 2
 });
@@ -112,25 +91,16 @@ util.log(testnet);
 util.log('');
 util.log(regtest);
 util.log('');
-util.log(segnet3);
 util.log('');
-util.log(segnet4);
-util.log('');
-util.log('');
-util.log('main hash: %s', main.rhash());
+util.log('main hash: %s', main.hash('hex'));
+util.log('main merkle: %s', main.merkleRoot);
 util.log('main raw: %s', main.toRaw().toString('hex'));
 util.log('');
-util.log('testnet hash: %s', testnet.rhash());
+util.log('testnet hash: %s', testnet.hash('hex'));
+util.log('testnet merkle: %s', testnet.merkleRoot);
 util.log('testnet raw: %s', testnet.toRaw().toString('hex'));
 util.log('');
-util.log('regtest hash: %s', regtest.rhash());
+util.log('regtest hash: %s', regtest.hash('hex'));
+util.log('regtest merkle: %s', regtest.merkleRoot);
 util.log('regtest raw: %s', regtest.toRaw().toString('hex'));
 util.log('');
-util.log('segnet3 hash: %s', segnet3.rhash());
-util.log('segnet3 raw: %s', segnet3.toRaw().toString('hex'));
-util.log('');
-util.log('segnet4 hash: %s', segnet4.rhash());
-util.log('segnet4 raw: %s', segnet4.toRaw().toString('hex'));
-util.log('');
-util.log('btcd simnet hash: %s', btcd.rhash());
-util.log('btcd simnet raw: %s', btcd.toRaw().toString('hex'));
