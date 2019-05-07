@@ -30,7 +30,6 @@
     "mongoose": "^4.11.9",
     "n64": "0.0.18",
     "bcoin-mongo-models": "https://github.com/bitpay/bcoin-mongo-models",
-    "scrypt": "^6.0.3",
     "lyra2re2-hash": "0.0.2"
   },
   "optionalDependencies": {
