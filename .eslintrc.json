@@ -90,6 +90,7 @@
       "exceptions": ["!"]
     }],
     "space-before-blocks": "error",
+    "strict": "error",
     "unicode-bom": ["error", "never"],
     "valid-jsdoc": "error",
     "wrap-iife": ["error", "inside"]
